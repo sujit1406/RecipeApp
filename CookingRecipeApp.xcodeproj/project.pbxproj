@@ -14,6 +14,14 @@
 		0D75B52B2C2163F000D3EC76 /* CookingRecipeAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B52A2C2163F000D3EC76 /* CookingRecipeAppTests.swift */; };
 		0D75B5352C2163F000D3EC76 /* CookingRecipeAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5342C2163F000D3EC76 /* CookingRecipeAppUITests.swift */; };
 		0D75B5372C2163F000D3EC76 /* CookingRecipeAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5362C2163F000D3EC76 /* CookingRecipeAppUITestsLaunchTests.swift */; };
+		0D75B5442C216F7900D3EC76 /* LoginPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5432C216F7900D3EC76 /* LoginPage.swift */; };
+		0D75B5462C217E4F00D3EC76 /* SignupPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5452C217E4F00D3EC76 /* SignupPage.swift */; };
+		0D75B5482C21C10A00D3EC76 /* HomePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5472C21C10A00D3EC76 /* HomePage.swift */; };
+		0D75B54A2C21C9AC00D3EC76 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5492C21C9AC00D3EC76 /* HomeView.swift */; };
+		0D75B54C2C21C9BB00D3EC76 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B54B2C21C9BB00D3EC76 /* NotificationsView.swift */; };
+		0D75B54E2C21C9CE00D3EC76 /* SavedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B54D2C21C9CE00D3EC76 /* SavedView.swift */; };
+		0D75B5502C21C9E500D3EC76 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B54F2C21C9E500D3EC76 /* ProfileView.swift */; };
+		0D75B5522C21CA0400D3EC76 /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D75B5512C21CA0400D3EC76 /* AddRecipeView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +52,14 @@
 		0D75B5302C2163F000D3EC76 /* CookingRecipeAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CookingRecipeAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		0D75B5342C2163F000D3EC76 /* CookingRecipeAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingRecipeAppUITests.swift; sourceTree = "<group>"; };
 		0D75B5362C2163F000D3EC76 /* CookingRecipeAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CookingRecipeAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		0D75B5432C216F7900D3EC76 /* LoginPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPage.swift; sourceTree = "<group>"; };
+		0D75B5452C217E4F00D3EC76 /* SignupPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupPage.swift; sourceTree = "<group>"; };
+		0D75B5472C21C10A00D3EC76 /* HomePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePage.swift; sourceTree = "<group>"; };
+		0D75B5492C21C9AC00D3EC76 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		0D75B54B2C21C9BB00D3EC76 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
+		0D75B54D2C21C9CE00D3EC76 /* SavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
+		0D75B54F2C21C9E500D3EC76 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		0D75B5512C21CA0400D3EC76 /* AddRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +112,14 @@
 			children = (
 				0D75B5192C2163EF00D3EC76 /* CookingRecipeAppApp.swift */,
 				0D75B51B2C2163EF00D3EC76 /* ContentView.swift */,
+				0D75B5432C216F7900D3EC76 /* LoginPage.swift */,
+				0D75B5452C217E4F00D3EC76 /* SignupPage.swift */,
+				0D75B5472C21C10A00D3EC76 /* HomePage.swift */,
+				0D75B5492C21C9AC00D3EC76 /* HomeView.swift */,
+				0D75B54B2C21C9BB00D3EC76 /* NotificationsView.swift */,
+				0D75B54D2C21C9CE00D3EC76 /* SavedView.swift */,
+				0D75B54F2C21C9E500D3EC76 /* ProfileView.swift */,
+				0D75B5512C21CA0400D3EC76 /* AddRecipeView.swift */,
 				0D75B51D2C2163F000D3EC76 /* Assets.xcassets */,
 				0D75B51F2C2163F000D3EC76 /* Preview Content */,
 			);
@@ -257,8 +281,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0D75B54E2C21C9CE00D3EC76 /* SavedView.swift in Sources */,
+				0D75B5502C21C9E500D3EC76 /* ProfileView.swift in Sources */,
+				0D75B5482C21C10A00D3EC76 /* HomePage.swift in Sources */,
 				0D75B51C2C2163EF00D3EC76 /* ContentView.swift in Sources */,
+				0D75B5522C21CA0400D3EC76 /* AddRecipeView.swift in Sources */,
+				0D75B5442C216F7900D3EC76 /* LoginPage.swift in Sources */,
+				0D75B54A2C21C9AC00D3EC76 /* HomeView.swift in Sources */,
+				0D75B5462C217E4F00D3EC76 /* SignupPage.swift in Sources */,
 				0D75B51A2C2163EF00D3EC76 /* CookingRecipeAppApp.swift in Sources */,
+				0D75B54C2C21C9BB00D3EC76 /* NotificationsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
