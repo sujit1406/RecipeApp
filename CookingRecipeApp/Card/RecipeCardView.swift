@@ -60,7 +60,7 @@ struct RecipeCardView: View {
 }
 
 #Preview {
-    RecipeCardView(recipe: Recipe(name: , imageURL: <#T##String#>, time: <#T##Int#>, rating: <#T##Double#>, saved: <#T##Bool#>), onSaveToggle: {
+    RecipeCardView(recipe: Recipe(name: "Classic Greek Salad", imageURL: "recipe1", time: 15, rating: 4.5, saved: true), onSaveToggle: {
         
     })
 }
