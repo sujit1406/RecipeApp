@@ -37,6 +37,7 @@
 		0D948F0E2E2BB1D80030FD03 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D948EF22E2BB1D80030FD03 /* Extensions.swift */; };
 		0D948F0F2E2BB1D80030FD03 /* RecipeCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D948EEE2E2BB1D80030FD03 /* RecipeCardView.swift */; };
 		0D948F102E2BB1D80030FD03 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0D948EF42E2BB1D80030FD03 /* Preview Assets.xcassets */; };
+		0DC26B472E2BBA100082A63F /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC26B462E2BBA100082A63F /* RecipeDetailView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		0D948EFD2E2BB1D80030FD03 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		0D948EFE2E2BB1D80030FD03 /* SavedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SavedView.swift; sourceTree = "<group>"; };
 		0D948EFF2E2BB1D80030FD03 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
+		0DC26B462E2BBA100082A63F /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,6 +253,7 @@
 			children = (
 				0D948EF92E2BB1D80030FD03 /* AddRecipeView.swift */,
 				0D948EFA2E2BB1D80030FD03 /* AuthView.swift */,
+				0DC26B462E2BBA100082A63F /* RecipeDetailView.swift */,
 				0D948EFB2E2BB1D80030FD03 /* MainTabView.swift */,
 				0D948EFC2E2BB1D80030FD03 /* NotificationsView.swift */,
 				0D948EFD2E2BB1D80030FD03 /* ProfileView.swift */,
@@ -407,6 +410,7 @@
 				0D948F0A2E2BB1D80030FD03 /* CategoryCardView.swift in Sources */,
 				0D948F0B2E2BB1D80030FD03 /* SearchBarView.swift in Sources */,
 				0D948F0C2E2BB1D80030FD03 /* SplashView.swift in Sources */,
+				0DC26B472E2BBA100082A63F /* RecipeDetailView.swift in Sources */,
 				0D948F0D2E2BB1D80030FD03 /* AuthViewModel.swift in Sources */,
 				0D948F0E2E2BB1D80030FD03 /* Extensions.swift in Sources */,
 				0D948F0F2E2BB1D80030FD03 /* RecipeCardView.swift in Sources */,

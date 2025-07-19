@@ -58,12 +58,6 @@ struct SplashView: View {
                 Spacer()
             }
         }
-        .onAppear {
-            // Simulate splash delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                coordinator.start()
-            }
-        }
     }
 }
 

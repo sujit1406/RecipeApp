@@ -12,128 +12,181 @@ struct MainTabView: View {
     @ObservedObject var appState: AppState
     
     var body: some View {
-        TabView(selection: $coordinator.selectedTab) {
-            HomeView(coordinator: coordinator, appState: appState)
-                .tabItem {
-                    Image("home-2")
-                    Text("Home")
-                }
-                .tag(MainCoordinator.Tab.home)
+        ZStack(alignment: .bottom) {
+
             
-            SavedView()
-                .tabItem {
-                    Image("profile")
-                    Text("Saved")
-                }
-                .tag(MainCoordinator.Tab.saved)
+            TabView(selection: $coordinator.selectedTab) {
+                HomeView(coordinator: coordinator, appState: appState)
+                    .tag(MainCoordinator.Tab.home)
+                
+                SavedView()
+                    .tag(MainCoordinator.Tab.saved)
+                
+                NotificationsView()
+                    .tag(MainCoordinator.Tab.notifications)
+                
+                ProfileView(appState: appState)
+                    .tag(MainCoordinator.Tab.profile)
+            }
+            .toolbar(.hidden, for: .tabBar)
+            .sheet(isPresented: $coordinator.showingAddRecipe) {
+                AddRecipeView()
+            }
+            .sheet(item: $coordinator.selectedRecipe) { recipe in
+                RecipeDetailView(recipe: recipe)
+            }
             
-            AddRecipeView()
-                .tabItem {
-                    Image("addrecipe")
-                    Text("Add")
-                }
-                .tag(MainCoordinator.Tab.add)
+            TabBarShape(insetRadius: 30)
+                .frame(width: 350, height: 70)
+                .foregroundColor(.white)
+                .shadow(color: Color(white: 0.8), radius: 6, x: 0, y: 3)
             
-            NotificationsView()
-                .tabItem {
-                    Image("notification-bing")
-                    Text("Notifications")
+            HStack {
+                Button {
+                    $coordinator.selectedTab.wrappedValue = .home
+                } label: {
+                    CustomTabItem(imageName: "home-2", title: "Home", isActive: ($coordinator.selectedTab.wrappedValue == .home))
                 }
-                .tag(MainCoordinator.Tab.notifications)
+                
+                Button {
+                    $coordinator.selectedTab.wrappedValue = .saved
+                } label: {
+                    CustomTabItem(imageName: "Inactive", title: "Saved", isActive: ($coordinator.selectedTab.wrappedValue == .saved))
+                }
+                
+                
+                Button {
+                    $coordinator.selectedTab.wrappedValue = .notifications
+                } label: {
+                    CustomTabItem(imageName: "notification-bing", title: "Notifications", isActive: ($coordinator.selectedTab.wrappedValue == .notifications))
+                }
+                
+                
+                Button {
+                    $coordinator.selectedTab.wrappedValue = .profile
+                } label: {
+                    CustomTabItem(imageName: "profile", title: "Profile", isActive: ($coordinator.selectedTab.wrappedValue == .profile))
+                }
+                
+            }.frame(height: 70)
+
             
-            ProfileView()
-                .tabItem {
-                    Image("profile")
-                    Text("Profile")
-                }
-                .tag(MainCoordinator.Tab.profile)
-        }
-        .sheet(isPresented: $coordinator.showingAddRecipe) {
-            AddRecipeView()
-        }
-        .sheet(item: $coordinator.selectedRecipe) { recipe in
-            RecipeDetailView(recipe: recipe)
+            Button {
+                coordinator.showAddRecipe()
+            } label: {
+                Image("addrecipe")
+                    .resizable()
+                    .frame(width: 48, height: 48)
+            }
+            .frame(width: 50, height: 50)
+            .clipShape(Circle())
+            .shadow(radius: 0.8)
+            .offset(y: -50)
         }
     }
 }
 
-struct RecipeDetailView: View {
-    let recipe: Recipe
-    @Environment(\.dismiss) private var dismiss
-    
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 20) {
-                    Image(recipe.imageURL)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 250)
-                        .clipped()
-                    
-                    VStack(alignment: .leading, spacing: 15) {
-                        Text(recipe.name)
-                            .font(.title)
-                            .fontWeight(.bold)
-                        
-                        HStack {
-                            Label("\(recipe.time) mins", systemImage: "clock")
-                            Spacer()
-                            Label(String(format: "%.1f", recipe.rating), systemImage: "star.fill")
-                                .foregroundColor(.yellow)
-                        }
-                        .foregroundColor(.gray)
-                        
-                        if let description = recipe.description {
-                            Text(description)
-                                .font(.body)
-                        }
-                        
-                        if let ingredients = recipe.ingredients {
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text("Ingredients")
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                
-                                ForEach(ingredients, id: \.self) { ingredient in
-                                    HStack {
-                                        Circle()
-                                            .fill(Color.green)
-                                            .frame(width: 8, height: 8)
-                                        Text(ingredient)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        if let instructions = recipe.instructions {
-                            VStack(alignment: .leading, spacing: 10) {
-                                Text("Instructions")
-                                    .font(.headline)
-                                    .fontWeight(.semibold)
-                                
-                                ForEach(Array(instructions.enumerated()), id: \.offset) { index, instruction in
-                                    HStack(alignment: .top) {
-                                        Text("\(index + 1).")
-                                            .fontWeight(.bold)
-                                            .foregroundColor(.green)
-                                        Text(instruction)
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    .padding()
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(trailing: Button("Done") {
-                dismiss()
-            })
+extension MainTabView {
+    func CustomTabItem(imageName: String, title: String, isActive: Bool) -> some View{
+        HStack(alignment: .center,spacing: 22){
+            Spacer()
+            Image(imageName)
+                .resizable()
+                .renderingMode(.template)
+                .foregroundColor(isActive ? Color(red: 18/255, green: 149/255, blue: 117/255) : .gray)
+                .frame(width: 25, height: 25)
+            Spacer()
         }
     }
 }
+
+
+struct TabBarShape: Shape {
+    let insetRadius: CGFloat
+    let cornerRadius = CGFloat(25)
+    let insetCornerAngle = 45.0
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        
+        // Start just below the top-left corner
+        var x = rect.minX
+        var y = rect.minY + cornerRadius
+        path.move(to: CGPoint(x: x, y: y))
+        
+        // Add the rounded corner on the top-left corner
+        x += cornerRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: cornerRadius,
+            startAngle: .degrees(180),
+            endAngle: .degrees(270),
+            clockwise: false
+        )
+        // Begin inset in middle, cutting into shape
+        x = rect.midX - (2 * insetRadius)
+        y = rect.minY + insetRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: insetRadius,
+            startAngle: .degrees(270),
+            endAngle: .degrees(270 + insetCornerAngle),
+            clockwise: false
+        )
+        // Add a half-circle to fit the button
+        x = rect.midX
+        y = rect.minY
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: insetRadius,
+            startAngle: .degrees(90 + insetCornerAngle),
+            endAngle: .degrees(90 - insetCornerAngle),
+            clockwise: true
+        )
+        // Complete the inset with the second rounded corner
+        x += (2 * insetRadius)
+        y += insetRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: insetRadius,
+            startAngle: .degrees(270 - insetCornerAngle),
+            endAngle: .degrees(270),
+            clockwise: false
+        )
+        // Top-right corner
+        x = rect.maxX - cornerRadius
+        y = rect.minY + cornerRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: cornerRadius,
+            startAngle: .degrees(270),
+            endAngle: .degrees(0),
+            clockwise: false
+        )
+        // Bottom-right corner
+        y = rect.maxY - cornerRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: cornerRadius,
+            startAngle: .degrees(0),
+            endAngle: .degrees(90),
+            clockwise: false
+        )
+        // Bottom-left corner
+        x = rect.minX + cornerRadius
+        path.addArc(
+            center: CGPoint(x: x, y: y),
+            radius: cornerRadius,
+            startAngle: .degrees(90),
+            endAngle: .degrees(180),
+            clockwise: false
+        )
+        path.closeSubpath()
+        return path
+    }
+}
+
 
 #Preview {
     MainTabView(appState: AppState.shared)
-} 
+}

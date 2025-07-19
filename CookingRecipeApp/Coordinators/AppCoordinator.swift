@@ -20,12 +20,15 @@ class AppCoordinator: ObservableObject {
         
         // Observe authentication state changes
         appState.$isAuthenticated
+            .filter{$0 == true}
             .receive(on: DispatchQueue.main)
+            .delay(for: .seconds(2), scheduler: DispatchQueue.main)
             .sink { [weak self] isAuthenticated in
                 self?.isAuthenticated = isAuthenticated
                 self?.updateFlow()
             }
             .store(in: &cancellables)
+
     }
     
     private func updateFlow() {
