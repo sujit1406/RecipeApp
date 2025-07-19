@@ -7,12 +7,16 @@
 
 import SwiftUI
 
-struct CategoryCardView: View {
+struct CategoryCardView: View{
+    let category: String
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            RoundedRectangle(cornerRadius: 25)
+                .fill(.white)
+        }
     }
 }
 
 #Preview {
-    CategoryCardView()
+    CategoryCardView(category: "")
 }

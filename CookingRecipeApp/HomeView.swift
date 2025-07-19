@@ -8,43 +8,115 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var name:String
-    @State var searchText:String
+    @StateObject private var viewModel = HomeViewModel()
+    @ObservedObject var coordinator: MainCoordinator
+    @ObservedObject var appState: AppState
+    
     var body: some View {
         NavigationView {
-            VStack{
-                HStack{
-                    VStack{
-                        Text("Hello \(name)");
-                        Text("What are you cooking today?");
-                    }
-                    Spacer()
-                    Image("Avatar")
-                        .resizable()
-                        .frame(width: 50, height: 50)// to be replaced by image loader
-                }.padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 30))
-                HStack{
-                    SearchView(searchText: $searchText).padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 30))
-                    Button {
+            ScrollView {
+                VStack(spacing: 20) {
+                    // Header section
+                    HStack{
+                        VStack(alignment: .leading, spacing: 5){
+                            Text("Hello \(appState.currentUser?.name ?? "User")")
+                                .font(.title2)
+                                .fontWeight(.semibold);
+                            Text("What are you cooking today?")
+                                .font(.subheadline)
+                                .foregroundColor(.gray);
+                        }
+                        Spacer()
+                        Image("Avatar")
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .clipShape(Circle())
+                    }.padding(EdgeInsets(top: 0, leading: 30, bottom: 20, trailing: 30))
+                    
+                    // Search and filter section
+                    HStack{
+                        SearchView(searchText: $viewModel.searchText)
+                            .frame(maxWidth: .infinity)
+                        Button {
+                            
+                        } label: {
+                            Image("Filter")
+                                .resizable()
+                                .frame(width: 20, height: 20)
+                                .padding(10)
+                                .background(Color.gray.opacity(0.1))
+                                .clipShape(Circle())
+                        }
+                        .frame(width: 40, height: 40)
+                    }.padding(EdgeInsets(top: 0, leading: 30, bottom: 20, trailing: 30))
+                    
+                    // Featured Recipes Section
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("Today's Featured")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 30)
                         
-                    } label: {
-                        Image("Filter").resizable();
-                    }.frame(width: 40, height: 40)
-
-                }.padding(EdgeInsets(top: 0, leading: 30, bottom: 50, trailing: 30))
-                
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 50) {
+                                ForEach(viewModel.featuredRecipes) { recipe in
+                                    RecipeCardView(recipe: recipe, onSaveToggle: {
+                                        viewModel.toggleSavedRecipe(recipe: recipe)
+                                    })
+                                    .frame(width: 150, height: 280)
+                                    .onTapGesture {
+                                        coordinator.showRecipeDetail(recipe)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 30)
+                        }
+                    }
+                    
+                    // All Recipes Grid Section
+                    VStack(alignment: .leading, spacing: 15) {
+                        Text("All Recipes")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .padding(.horizontal, 30)
+                        
+                        if viewModel.isLoading {
+                            ProgressView()
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding()
+                        } else {
+                            LazyVGrid(columns: [
+                                GridItem(.flexible(), spacing: 40),
+                                GridItem(.flexible(), spacing: 40)
+                            ], spacing: 40) {
+                                ForEach(viewModel.allRecipes) { recipe in
+                                    RecipeCardView(recipe: recipe, onSaveToggle: {
+                                        viewModel.toggleSavedRecipe(recipe: recipe)
+                                    })
+                                    .onTapGesture {
+                                        coordinator.showRecipeDetail(recipe)
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 30)
+                        }
+                    }
+                }
+                .padding(.bottom, 30)
             }
+        }
+        .alert("Error", isPresented: .constant(viewModel.errorMessage != nil)) {
+            Button("OK") {
+                viewModel.errorMessage = nil
+            }
+        } message: {
+            Text(viewModel.errorMessage ?? "")
         }
     }
 }
 
 #Preview {
-    HomeView(name: "Sujith", searchText: "")
-}
-
-#Preview("Off") {
-    let recipe = Recipe(name: "Classic Greek Salad", imageURL: "", time: 15, rating: 4.5, saved: true)
-    return RecipeCardView(recipe: recipe);
+    HomeView(coordinator: MainCoordinator(), appState: AppState.shared)
 }
 
 struct SearchView: View {
@@ -53,8 +125,6 @@ struct SearchView: View {
         HStack {
             Image(systemName: "magnifyingglass").foregroundColor(.gray)
             TextField("Search Recipe", text: $searchText)
-            //.foregroundColor(Color.red)
-            //.font(Font.custom("Papyrus", size: 16))
         }
         .padding()
         .overlay(RoundedRectangle(cornerRadius: 10).stroke(lineWidth: 2).foregroundColor(Color.gray))
@@ -62,71 +132,3 @@ struct SearchView: View {
 }
 
 
-struct CategoryCardView: View{
-    let category: String
-    var body: some View {
-        ZStack {
-            RoundedRectangle(cornerRadius: 25)
-                .fill(.white)
-        }
-    }
-}
-
-struct RecipeCardView: View {
-    let recipe: Recipe
-
-    var body: some View {
-
-        VStack {
-            
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(red: 217/255, green: 217/255, blue: 217/255))
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding()
-
-                VStack {
-                    Image(recipe.imageURL)
-                        .resizable().frame(width: 110, height: 110)
-                        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-                    Text(recipe.name)
-                        .font(.system(size: 14, weight: .semibold))
-                        .foregroundStyle(.black)
-                        .frame(width: 130, height: 42)
-                    HStack{
-                        VStack{
-                            Text("Time")
-                                .font(.system(size: 11, weight: .thin))
-                                .foregroundStyle(.gray)
-                                .frame(width: 50, height: 20, alignment: .leading)
-                            Text("\(recipe.time) mins")
-                                .font(.system(size: 11, weight: .bold))
-                                .foregroundStyle(.black)
-                                .frame(width: 50, height: 20, alignment: .leading)
-                        }.padding()
-                        Spacer()
-                        Image("Inactive")
-                            .resizable()
-                            .foregroundColor(.black)
-                            .frame(width: 24, height: 24)
-                            .background(Color.white)
-                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                            .padding(EdgeInsets(top: 20, leading: 30, bottom: 0, trailing: 30))
-                    }
-                }
-                .padding(20)
-                .multilineTextAlignment(.center)
-            }
-            .frame(width: 150, height: 231)
-        }
-    }
-}
-
-struct Recipe{
-    var name: String
-    var imageURL:String
-    var time:Int
-    var rating: Double
-    var saved:Bool
-}
